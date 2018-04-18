@@ -1,0 +1,76 @@
+instalace centos7 minimal
+
+vypnutí enforcing v selinuxu
+ - vi /etc/sysconfig/selinux
+    SELINUX=permissive
+
+vypnutí firewallu
+ - systemctl disable firewalld
+ - systemctl stop firewalld
+
+start ssh serveru
+ - systemctl start sshd
+ - systemctl enable sshd
+
+instalace apache 2.4
+ - yum install httpd -y
+ - systemctl status httpd
+ - systemctl start httpd
+ - systemctl restart httpd
+
+instalace php-fpm
+ - rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ - rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+ - yum install -y php71w-fpm
+
+nastavení session path
+ - 
+
+instalace php 7.1
+ - yum install -y php71w-cli php71w-common php71w-gd php71w-mbstring php71w-mcrypt php71w-mysqlnd php71w-xml
+
+konfigurace php
+ - 
+
+instalace mysql
+ - yum install -y https://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+ - yum install -y mysql-community-server
+
+konfigurace apache
+ - vi /etc/httpd/conf.d/
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://localhost:9000/var/www/html/$1
+
+nastartovat všechny servízy
+ - systemctl start <servíza>
+ - httpd
+ - php-fpm
+ - mysqld
+ - systemctl enable <servíza>
+
+stažení instalace sugaru
+ - wget ...../download
+ - ownCloud - Vývoj > Instalace ...
+
+přejmenování download souboru
+ - na cosi.zip
+
+unzip cosi.zip
+ - unzip cosi.zip ve /var/www/html
+ - případně mv do /var/www/html (nezapomenout zvlášť na mv .htaccess)
+
+doplnit obsah .htaccess z jiného serveru
+ - 
+
+práva
+ - chown -R apache:apache /var/www/html
+
+vytvoření uživatele v mysql + přidat práva pouze pro DB sugarcrm
+ - 
+
+dodat moduly pro PHP
+ - 
+
+dodat phpMyAfmin
+ - 
