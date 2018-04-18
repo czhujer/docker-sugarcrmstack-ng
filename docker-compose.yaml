@@ -1,0 +1,79 @@
+version: '2'
+
+services:
+  data_mysql:
+    image: busybox
+    container_name: php7_data_mysql
+    volumes:
+     -  data_mysql:/var/lib/mysql:z
+
+  data_sugarcrm:
+    image: busybox
+    container_name: php7_data_sugarcrm
+    volumes:
+     - data_sugarcrm:/usr/local/apache2/htdocs
+
+  php:
+    image: php:7.1.16-fpm-jessie
+    container_name: php7_php
+    volumes:
+     - /Users/acdc76/Docker/docker-c7-sugarcrmstack-for-s7.9-master/docker-compose/php7/fpm-conf.d:/usr/local/etc/php-fpm.d
+    volumes_from:
+     - data_sugarcrm
+
+  apache:
+    image: httpd:2.4
+    container_name: php7_apache
+    links:
+     - php
+    ports:
+     - "14080:80"
+    volumes:
+     - apache_conf_d:/usr/local/apache2/conf.d
+     - /Users/acdc76/Docker/docker-c7-sugarcrmstack-for-s7.9-master/docker-compose/php7/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    # - /Users/acdc76/Docker/docker-c7-sugarcrmstack-for-s7.9-master/docker-compose/php7/htdocs:/usr/local/apache2/htdocs
+    volumes_from:
+     - data_sugarcrm
+
+  sugardatabase:
+    image: mysql:5.7
+    container_name: php7_db
+    volumes_from:
+     - data_mysql
+    ports:
+     - "14306:3306"
+    environment:
+     - MYSQL_ROOT_PASSWORD=heslo
+     - MYSQL_DATABASE=sugarcrm
+     - MYSQL_USER=sugarcrm
+     - MYSQL_PASSWORD=sugarcrm
+
+#  sugarmemcached:
+#    image: memcached:latest
+#    container_name: php7_memcache
+#    ports:
+#     - "14211:11211"
+
+#  sugarelastic:
+#    image: elasticsearch:1.7.5
+#    container_name: php7_elastic
+#    ports:
+#     - "14920:9200"
+
+volumes:
+  data_mysql:
+      driver: local
+  data_sugarcrm:
+      driver: local
+  web_logs:
+      driver: local
+  web_hiera_data:
+      driver: local
+  web_puppet_data:
+      driver: local
+  web_apache_ssh:
+      driver: local
+  web_puppet_sugarcrmstack:
+      driver: local
+  apache_conf_d:
+      driver: local
