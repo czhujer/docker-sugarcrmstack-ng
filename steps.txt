@@ -18,19 +18,29 @@ instalace apache 2.4
  - systemctl start httpd
  - systemctl restart httpd
 
+instalace SSL
+ - yum install mod_ssl -y
+
 instalace php-fpm
  - rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
  - rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
  - yum install -y php71w-fpm
 
-nastavení session path
- - 
+nastavení session path (php-fpm)
+ - (do not edit /etc/php.ini - it doesn't work)
+ - see /etc/php-fpm.d/www.conf
+ - mkdir mentioned dir ( /var/lib/php/session )
+ - chown apache
+ - chmod 775 (necessary?)
 
 instalace php 7.1
- - yum install -y php71w-cli php71w-common php71w-gd php71w-mbstring php71w-mcrypt php71w-mysqlnd php71w-xml
+ - yum install -y php71w-cli php71w-common php71w-gd php71w-mbstring php71w-mcrypt php71w-mysqlnd php71w-xml php71w-bcmath
 
-konfigurace php
- - 
+konfigurace php (prokopnutí https spojení - vyžaduje SSL)
+ - allow override for .htaccess
+    https://github.com/SugarFactory/puppet-sugarcrmstack/blob/master/templates/apache-conf-sugarcrm-ssl.conf.erb
+ - nějak inteligentně odebrat ruby kód
+ - scp .htaccess např. z CBRE (může vyžadovat dva kroky - přes lokál)
 
 instalace mysql
  - yum install -y https://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
