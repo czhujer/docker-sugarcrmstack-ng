@@ -80,7 +80,7 @@ vytvoření uživatele v mysql + přidat práva pouze pro DB sugarcrm
  - 
 
 dodat moduly pro PHP
- - 
+ - yum install php71w-pecl-apcu php71w-pecl-redis php71w-pecl-memcached php71w-opcache php71w-imap php71w-pecl-xdebug
 
 dodat phpMyAfmin
  - 
