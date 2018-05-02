@@ -43,7 +43,7 @@ konfigurace php (prokopnutí https spojení - vyžaduje SSL)
  - scp .htaccess např. z CBRE (může vyžadovat dva kroky - přes lokál)
 
 instalace mysql
- - yum install -y https://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+ - yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm 
  - yum install -y mysql-community-server
 
 konfigurace apache
@@ -77,7 +77,9 @@ práva
  - chown -R apache:apache /var/www/html
 
 vytvoření uživatele v mysql + přidat práva pouze pro DB sugarcrm
- - 
+ - mysql
+ - CREATE USER 'sugarcrm'@'localhost' IDENTIFIED BY 'heslo';
+ - GRANT ALL PRIVILEGES ON sugarcrm.* TO 'sugarcrm'@'localhost';
 
 dodat moduly pro PHP
  - yum install php71w-pecl-apcu php71w-pecl-redis php71w-pecl-memcached php71w-opcache php71w-imap php71w-pecl-xdebug
