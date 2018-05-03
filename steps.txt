@@ -33,18 +33,21 @@ instalace php-fpm
 # install packages
  - yum install -y php-common php-fpm
 
-nastavení session path (php-fpm)
- - (do not edit /etc/php.ini - it doesn't work)
- - see /etc/php-fpm.d/www.conf
- - mkdir mentioned dir ( /var/lib/php/session )
- - chown apache
- - chmod 775 (necessary?)
-
 instalace php 7.1
  - yum install -y php-cli php-common php-gd php-mbstring php-mcrypt php-mysqlnd php-xml php-bcmath
 dodat moduly pro PHP
  - yum install php-pecl-apcu php-pecl-redis php-pecl-memcached php-opcache php-imap php-pecl-xdebug
-  
+
+fix php config directory
+ - cd /etc/opt/remi/php71 && mv php.d php.d.old && ln -s /etc/php.d ./
+
+ nastavení session path (php-fpm)
+  - (do not edit /etc/php.ini - it doesn't work)
+  - see /etc/php-fpm.d/www.conf
+  - mkdir mentioned dir ( /var/lib/php/session )
+  - chown apache
+  - chmod 775 (necessary?)
+
 konfigurace php (prokopnutí https spojení - vyžaduje SSL)
  - allow override for .htaccess
     https://github.com/SugarFactory/puppet-sugarcrmstack/blob/master/templates/apache-conf-sugarcrm-ssl.conf.erb
