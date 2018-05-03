@@ -92,4 +92,4 @@ vytvoření uživatele v mysql + přidat práva pouze pro DB sugarcrm
 
 dodat phpMyAdmin
  - mkdir -p /usr/share/phpMyAdmin && cd /usr/share/phpMyAdmin
- - git clone https://github.com/phpmyadmin/phpmyadmin.git RELEASE_4_8_0_1
+ - git clone --depth 1 https://github.com/phpmyadmin/phpmyadmin.git RELEASE_4_8_0_1
