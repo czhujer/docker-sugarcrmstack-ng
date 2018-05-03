@@ -7,6 +7,8 @@ vypnutí enforcing v selinuxu
 vypnutí firewallu
  - systemctl disable firewalld
  - systemctl stop firewalld
+#switch to old way iptables
+ - yum erase firewalld* -y && yum install iptables-services -y
 
 start ssh serveru
  - systemctl start sshd
@@ -88,6 +90,6 @@ vytvoření uživatele v mysql + přidat práva pouze pro DB sugarcrm
  - CREATE USER 'sugarcrm'@'localhost' IDENTIFIED BY 'heslo';
  - GRANT ALL PRIVILEGES ON sugarcrm.* TO 'sugarcrm'@'localhost';
 
-
-dodat phpMyAfmin
- - 
+dodat phpMyAdmin
+ - mkdir -p /usr/share/phpMyAdmin && cd /usr/share/phpMyAdmin
+ - git clone https://github.com/phpmyadmin/phpmyadmin.git RELEASE_4_8_0_1
