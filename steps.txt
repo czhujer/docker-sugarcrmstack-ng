@@ -34,7 +34,7 @@ instalace php-fpm
  - yum install -y php-common php-fpm
 
 instalace php 7.1
- - yum install -y php-cli php-common php-gd php-mbstring php-mcrypt php-mysqlnd php-xml php-bcmath
+ - yum install -y php-cli php-common php-gd php-mbstring php-mcrypt php-mysqlnd php-xml php-bcmath php-pecl-zip
 dodat moduly pro PHP
  - yum install php-pecl-apcu php-pecl-redis php-pecl-memcached php-opcache php-imap php-pecl-xdebug
 
