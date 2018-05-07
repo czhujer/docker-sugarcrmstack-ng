@@ -1,4 +1,9 @@
+## install sugarcrmstack manualy
+
+### OS
 instalace centos7 minimal
+
+### basic OS configuring
 
 vypnutí enforcing v selinuxu
  - vi /etc/sysconfig/selinux
@@ -7,12 +12,15 @@ vypnutí enforcing v selinuxu
 vypnutí firewallu
  - systemctl disable firewalld
  - systemctl stop firewalld
-#switch to old way iptables
+
+switch to old way iptables
  - yum erase firewalld* -y && yum install iptables-services -y
 
 start ssh serveru
  - systemctl start sshd
  - systemctl enable sshd
+
+### install apache + php
 
 instalace apache 2.4
  - yum install httpd -y
@@ -25,12 +33,12 @@ instalace SSL
 
 instalace php-fpm
 
-# add repos
+#### add repos
  - rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
  - rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
-# enable repo for remi php 7.1
+#### enable repo for remi php 7.1
  - set enabled to 1 in section [remi-php71] in file /etc/yum.repos.d/remi-php71.repo
-# install packages
+#### install packages
  - yum install -y php-common php-fpm
 
 instalace php 7.1
@@ -55,7 +63,7 @@ konfigurace php (prokopnutí https spojení - vyžaduje SSL)
  - scp .htaccess např. z CBRE (může vyžadovat dva kroky - přes lokál)
 
 instalace mysql
- - yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm 
+ - yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
  - yum install -y mysql-community-server
 
 konfigurace apache
@@ -71,6 +79,8 @@ nastartovat všechny servízy
  - mysqld
  - systemctl enable <servíza>
 
+### install sugarCRM
+
 stažení instalace sugaru
  - wget ...../download
  - ownCloud - Vývoj > Instalace ...
@@ -83,7 +93,7 @@ unzip cosi.zip
  - případně mv do /var/www/html (nezapomenout zvlášť na mv .htaccess)
 
 doplnit obsah .htaccess z jiného serveru
- - 
+ -
 
 práva
  - chown -R apache:apache /var/www/html
@@ -96,3 +106,47 @@ vytvoření uživatele v mysql + přidat práva pouze pro DB sugarcrm
 dodat phpMyAdmin
  - mkdir -p /usr/share/phpMyAdmin && cd /usr/share/phpMyAdmin
  - git clone --depth 1 https://github.com/phpmyadmin/phpmyadmin.git RELEASE_4_8_0_1
+
+
+ ### Installing NGINX [optional step]
+ ================
+
+ copy /etc/puppet/manifests/puppet-nginx.pp from another hosts directory in Config Management repo
+
+ uncomment self-signed certificates and comment the SugarFactory ones
+
+ (switch comments to this (on two places in the file) """
+
+   ssl_cert    => '/etc/pki/tls/certs/localhost.crt',
+
+   ssl_key     => '/etc/pki/tls/private/localhost.key',
+
+ #  ssl_cert    => '/etc/pki/tls/certs/sugarfactory.cz.public.chain.crt',
+
+ #  ssl_key     => '/etc/pki/tls/private/sugarfactory.cz.key',
+
+ """)
+
+ edit /etc/httpd/conf/ports.conf to """
+
+ Listen 10080
+
+ Listen 10443
+
+ """
+
+ edit /etc/httpd/conf.d/25-*.conf and set the ports to 10080 and 10443
+
+ - comment rewrite in first vhost (_)
+
+ location_cfg_append => {
+
+     # 'rewrite' => '^ https://crm-xxx.sugarfactory.cz$request_uri? permanent',
+
+ - uncomment this at the beginning
+
+ proxy => 'https://default',
+
+ - comment www root and CSR policy (twice in the file)
+
+ #www_root    => "/var/www/html",
