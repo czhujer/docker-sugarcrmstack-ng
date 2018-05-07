@@ -111,9 +111,19 @@ dodat phpMyAdmin
 ### Installing NGINX [optional step]
 ================
 
- - copy /etc/puppet/manifests/puppet-nginx.pp from another hosts directory in Config Management repo
+- edit /etc/httpd/conf/ports.conf to
+```
+Listen 10080
+Listen 10443
+```
 
- - uncomment self-signed certificates and comment the SugarFactory ones in puppet nginx file
+- edit /etc/httpd/conf.d/25-sugar*.conf and set the ports to 10080 and 10443
+
+- copy /etc/puppet/manifests/puppet-nginx.pp from another hosts directory in Config Management repo
+
+- edit this nginx.pp file:
+
+- uncomment self-signed certificates and comment the SugarFactory ones in puppet nginx file
 
  (switch comments to this (on two places in the file)
 
@@ -124,24 +134,19 @@ dodat phpMyAdmin
  #  ssl_key     => '/etc/pki/tls/private/sugarfactory.cz.key',
  ```
 
- - edit /etc/httpd/conf/ports.conf to
- ```
- Listen 10080
- Listen 10443
+- comment rewrite in first vhost (_)
 ```
-
- - edit /etc/httpd/conf.d/25-*.conf and set the ports to 10080 and 10443
-
- - comment rewrite in first vhost (_)
-
  location_cfg_append => {
 
      # 'rewrite' => '^ https://crm-xxx.sugarfactory.cz$request_uri? permanent',
+```
 
- - uncomment this at the beginning
-
+- uncomment this at the beginning
+``
  proxy => 'https://default',
+```
 
  - comment www root and CSR policy (twice in the file)
-
+```
  #www_root    => "/var/www/html",
+```
