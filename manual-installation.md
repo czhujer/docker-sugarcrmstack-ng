@@ -108,15 +108,16 @@ dodat phpMyAdmin
  - git clone --depth 1 https://github.com/phpmyadmin/phpmyadmin.git RELEASE_4_8_0_1
 
 
- ### Installing NGINX [optional step]
- ================
+### Installing NGINX [optional step]
+================
 
- copy /etc/puppet/manifests/puppet-nginx.pp from another hosts directory in Config Management repo
+ - copy /etc/puppet/manifests/puppet-nginx.pp from another hosts directory in Config Management repo
 
- uncomment self-signed certificates and comment the SugarFactory ones
+ - uncomment self-signed certificates and comment the SugarFactory ones in puppet nginx file
 
- (switch comments to this (on two places in the file) """
+ (switch comments to this (on two places in the file)
 
+ ```
    ssl_cert    => '/etc/pki/tls/certs/localhost.crt',
 
    ssl_key     => '/etc/pki/tls/private/localhost.key',
@@ -125,17 +126,17 @@ dodat phpMyAdmin
 
  #  ssl_key     => '/etc/pki/tls/private/sugarfactory.cz.key',
 
- """)
+ ```
 
- edit /etc/httpd/conf/ports.conf to """
+ - edit /etc/httpd/conf/ports.conf to ```
 
  Listen 10080
 
  Listen 10443
 
- """
+```
 
- edit /etc/httpd/conf.d/25-*.conf and set the ports to 10080 and 10443
+ - edit /etc/httpd/conf.d/25-*.conf and set the ports to 10080 and 10443
 
  - comment rewrite in first vhost (_)
 
