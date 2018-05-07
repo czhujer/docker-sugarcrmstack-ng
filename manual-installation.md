@@ -1,4 +1,4 @@
-## install sugarcrmstack manualy
+## install sugarcrmstack manually
 
 ### OS
 instalace centos7 minimal
@@ -46,7 +46,7 @@ instalace php 7.1
 dodat moduly pro PHP
  - yum install php-pecl-apcu php-pecl-redis php-pecl-memcached php-opcache php-imap php-pecl-xdebug
 
-fix php config directory
+fix php config directory (if exists)
  - cd /etc/opt/remi/php71 && mv php.d php.d.old && ln -s /etc/php.d ./
 
  nastavení session path (php-fpm)
@@ -119,21 +119,15 @@ dodat phpMyAdmin
 
  ```
    ssl_cert    => '/etc/pki/tls/certs/localhost.crt',
-
    ssl_key     => '/etc/pki/tls/private/localhost.key',
-
  #  ssl_cert    => '/etc/pki/tls/certs/sugarfactory.cz.public.chain.crt',
-
  #  ssl_key     => '/etc/pki/tls/private/sugarfactory.cz.key',
-
  ```
 
- - edit /etc/httpd/conf/ports.conf to ```
-
+ - edit /etc/httpd/conf/ports.conf to
+ ```
  Listen 10080
-
  Listen 10443
-
 ```
 
  - edit /etc/httpd/conf.d/25-*.conf and set the ports to 10080 and 10443
