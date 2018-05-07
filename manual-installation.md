@@ -144,7 +144,7 @@ Listen 10443
 
 - uncomment this at the beginning
 
-``
+```
  proxy => 'https://default',
 ```
 
