@@ -93,7 +93,7 @@ unzip cosi.zip
  - případně mv do /var/www/html (nezapomenout zvlášť na mv .htaccess)
 
 doplnit obsah .htaccess z jiného serveru
- -
+ - rsync / vi
 
 práva
  - chown -R apache:apache /var/www/html
@@ -135,6 +135,7 @@ Listen 10443
  ```
 
 - comment rewrite in first vhost (_)
+
 ```
  location_cfg_append => {
 
@@ -142,11 +143,13 @@ Listen 10443
 ```
 
 - uncomment this at the beginning
+
 ``
  proxy => 'https://default',
 ```
 
  - comment www root and CSR policy (twice in the file)
+
 ```
  #www_root    => "/var/www/html",
 ```
