@@ -117,11 +117,13 @@ Listen 10080
 Listen 10443
 ```
 
-- edit /etc/httpd/conf.d/25-sugar*.conf and set the ports to 10080 and 10443
+- edit /etc/httpd/conf.d/zzz.conf (or /etc/httpd/conf.d/25-sugar*.conf): set the ports for VirtualHost(s) to 10080 and 10443
 
-- copy /etc/puppet/manifests/puppet-nginx.pp from another hosts directory in Config Management repo
+- restart apache service: systemctl restart httpd
 
-- edit this nginx.pp file:
+- copy nginx manifest from another hosts directory in Config Management repo to /etc/puppet/manifests/puppet-nginx.pp
+
+- edit this (puppet-nginx.pp) file according to the step below...
 
 - uncomment self-signed certificates and comment the SugarFactory ones in puppet nginx file
 
@@ -134,7 +136,7 @@ Listen 10443
  #  ssl_key     => '/etc/pki/tls/private/sugarfactory.cz.key',
  ```
 
-- comment rewrite in first vhost (_)
+- comment rewrite in first/default vhost (line starts nginx::resource::server)
 
 ```
  location_cfg_append => {
@@ -148,8 +150,14 @@ Listen 10443
  proxy => 'https://default',
 ```
 
- - comment www root and CSR policy (twice in the file)
+- comment www root and CSR policy (twice in the file)
 
 ```
  #www_root    => "/var/www/html",
+```
+
+- run puppet apply..
+
+```
+root@server # puppet apply /etc/puppet/manifests
 ```
